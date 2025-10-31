@@ -62,3 +62,5 @@ qr-scanner-*.json
 .kiro
 
 fastlane
+ios
+android
