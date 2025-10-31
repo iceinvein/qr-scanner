@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "qr-scanner",
+    "name": "QR Scanner",
     "slug": "qr-scanner",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,17 +8,40 @@
     "scheme": "qrscanner",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.iceinveins.qrscanner",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs camera access to scan QR codes.",
+        "NSPhotoLibraryUsageDescription": "This app needs photo library access to save QR codes.",
+        "NSCalendarsUsageDescription": "This app needs calendar access to add events from QR codes.",
+        "NSContactsUsageDescription": "This app needs contacts access to save contact information from QR codes.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
       "config": {
         "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY"
       }
     },
     "android": {
+      "package": "com.iceinveins.qrscanner",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#007AFF",
         "foregroundImage": "./assets/images/icon.png"
       },
+      "permissions": [
+        "CAMERA",
+        "READ_CALENDAR",
+        "WRITE_CALENDAR",
+        "READ_CONTACTS",
+        "WRITE_CONTACTS"
+      ],
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "config": {
@@ -49,6 +72,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "aad55bc6-8b2b-4dd3-a305-40054e28d1f0"
+      }
+    },
+    "owner": "iceinvein"
   }
 }

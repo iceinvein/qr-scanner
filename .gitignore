@@ -53,7 +53,7 @@ fastlane/metadata/**/images/**/*.jpg
 service-account.json
 google-services.json
 GoogleService-Info.plist
-**/service-account*.json
+qr-scanner-*.json
 
 # EAS
 .eas-build-pre-install.sh
