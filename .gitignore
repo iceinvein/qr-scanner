@@ -32,8 +32,33 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env.fastlane
 
 # typescript
 *.tsbuildinfo
 
+# Fastlane
+*.cer
+*.certSigningRequest
+*.mobileprovision
+*.p12
+
+# Fastlane metadata images (keep structure, ignore actual images)
+fastlane/metadata/**/images/**/*.png
+fastlane/metadata/**/images/**/*.jpg
+!fastlane/metadata/**/images/README.txt
+!fastlane/screenshots/**/README.txt
+
+# Service account keys
+service-account.json
+google-services.json
+GoogleService-Info.plist
+**/service-account*.json
+
+# EAS
+.eas-build-pre-install.sh
+.eas-build-post-install.sh
+
 .kiro
+
+fastlane
