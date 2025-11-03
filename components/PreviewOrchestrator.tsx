@@ -9,28 +9,48 @@ import type { DetectedIntent } from "../types/intents";
 import { IntentType } from "../types/intents";
 import type {
 	AppLinkData,
+	AppStoreData,
 	ContactData,
 	EmailData,
+	EPCPaymentData,
 	EventData,
+	FIDOData,
 	LocationData,
+	MeCardData,
+	MusicMediaData,
 	ParsedContent,
 	PaymentData,
 	PhoneData,
+	SocialMediaData,
+	TelegramData,
 	TextData,
+	TOTPData,
 	URLData,
+	VideoConferenceData,
+	WhatsAppData,
 	WiFiData,
 } from "../types/parsers";
 import {
 	AppLinkPreview,
+	AppStorePreview,
 	ContactPreview,
 	EmailPreview,
+	EPCPaymentPreview,
 	EventPreview,
+	FIDOPreview,
 	LocationPreview,
+	MeCardPreview,
+	MusicMediaPreview,
 	PaymentPreview,
 	PhonePreview,
+	SocialMediaPreview,
+	TelegramPreview,
 	TextPreview,
+	TOTPPreview,
 	URLPreview,
 	UnknownPreview,
+	VideoConferencePreview,
+	WhatsAppPreview,
 	WiFiPreview,
 } from "./previews";
 
@@ -165,6 +185,126 @@ export const PreviewOrchestrator: React.FC<PreviewOrchestratorProps> = ({
 			return (
 				<AppLinkPreview
 					data={parsedContent.data as AppLinkData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.FIDO:
+			return (
+				<FIDOPreview
+					data={parsedContent.data as FIDOData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.TOTP:
+			return (
+				<TOTPPreview
+					data={parsedContent.data as TOTPData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.WHATSAPP:
+			return (
+				<WhatsAppPreview
+					data={parsedContent.data as WhatsAppData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.TELEGRAM:
+			return (
+				<TelegramPreview
+					data={parsedContent.data as TelegramData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.MECARD:
+			return (
+				<MeCardPreview
+					data={parsedContent.data as MeCardData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.VIDEO_CONFERENCE:
+			return (
+				<VideoConferencePreview
+					data={parsedContent.data as VideoConferenceData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.SOCIAL_MEDIA:
+			return (
+				<SocialMediaPreview
+					data={parsedContent.data as SocialMediaData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.MUSIC_MEDIA:
+			return (
+				<MusicMediaPreview
+					data={parsedContent.data as MusicMediaData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.APP_STORE:
+			return (
+				<AppStorePreview
+					data={parsedContent.data as AppStoreData}
+					onPrimaryAction={onPrimaryAction}
+					onSecondaryAction={onSecondaryAction}
+					onDismiss={onDismiss}
+					isProcessing={isProcessing}
+					metadata={detectedIntent.metadata}
+				/>
+			);
+
+		case IntentType.EPC_PAYMENT:
+			return (
+				<EPCPaymentPreview
+					data={parsedContent.data as EPCPaymentData}
 					onPrimaryAction={onPrimaryAction}
 					onSecondaryAction={onSecondaryAction}
 					onDismiss={onDismiss}

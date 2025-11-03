@@ -1,27 +1,61 @@
-# QR Scanner �
+# QR Scanner 📱
 
-A powerful, privacy-focused QR code scanner built with React Native and Expo. Supports multiple QR code types including WiFi, contacts, events, payments, URLs, and more.
+A powerful, privacy-focused QR code scanner built with React Native and Expo. Supports **21 different QR code types** including authentication, payments, messaging, social media, and more.
 
 ## ✨ Features
 
-- 📷 **Fast QR Code Scanning** - Real-time camera-based scanning
-- 🔐 **Privacy-First** - All processing happens locally on device
-- 🎯 **Smart Intent Detection** - Automatically detects QR code type and provides appropriate actions
-- 🌓 **Dark Mode Support** - Beautiful UI that adapts to system theme
-- 📱 **Native Actions** - Direct integration with calendar, contacts, maps, and more
-- 🚀 **New Architecture** - Built with React Native's new architecture for better performance
+### Core Features
+- 📷 **21 QR Code Types** - Most comprehensive scanner available
+- 🔐 **Privacy-First** - 100% local processing, zero tracking
+- 🎯 **Smart Detection** - Automatically identifies format and extracts data
+- ⚡ **Lightning Fast** - Detection completes in <100ms
+- 🌓 **Dark Mode** - Beautiful UI that adapts to system theme
+- 📱 **Native Integration** - Direct actions with device apps
 
-### Supported QR Code Types
+### Developer Features
+- 💻 **TypeScript** - Fully typed for safety and IDE support
+- 🏗️ **Modular Architecture** - Easy to extend with new types
+- 📚 **Well Documented** - Comprehensive guides and inline comments
+- 🧪 **Best Practices** - Clean code, error handling, haptic feedback
+- 🚀 **Modern Stack** - Expo, React Native, Nanostores
 
-- 📡 **WiFi** - Connect to networks instantly
-- 💳 **Payments** - UPI, PayPal, Bitcoin, Ethereum
-- 📅 **Events** - Add to calendar with one tap
-- 👤 **Contacts** - Save vCard information
-- 📍 **Locations** - View on maps and get directions
-- 📧 **Email** - Compose emails
-- 📞 **Phone** - Make calls or send SMS
-- 🔗 **URLs** - Open websites and app links
-- 📝 **Text** - Copy any text content
+### Supported QR Code Types (21 Total!)
+
+#### 🔐 Authentication & Security
+- **TOTP/OTP** - 2FA setup for Google Authenticator, Authy, and other authenticator apps
+- **FIDO** - Fast Identity Online authentication for passwordless login
+- **WiFi** - Connect to networks instantly with credentials
+
+#### 💬 Messaging & Communication
+- **WhatsApp** - Open chats with pre-filled messages
+- **Telegram** - Access users, channels, groups, and bots
+- **Email** - Compose emails with recipients, subject, and body
+- **Phone** - Make calls or send SMS
+- **SMS** - Send text messages
+
+#### 👥 Contacts & Events
+- **Contacts (vCard)** - Save contact information with full vCard support
+- **MeCard** - Alternative contact format (popular in Japan)
+- **Events (iCal)** - Add calendar events with date, time, and location
+
+#### 💳 Payments
+- **Crypto Payments** - Bitcoin, Ethereum, and other cryptocurrencies
+- **UPI/Payment Links** - PayPal, Venmo, and payment processors
+- **EPC/SEPA** - European banking QR codes (IBAN, BIC, amounts)
+
+#### 🌐 Web & Apps
+- **URLs** - Open websites and web apps
+- **App Links** - Deep links to specific app screens
+- **App Store** - Apple App Store and Google Play Store links
+
+#### 🎬 Social & Media
+- **Social Media** - Instagram, Twitter/X, LinkedIn, Facebook, TikTok, YouTube, Snapchat profiles
+- **Music/Media** - Spotify, YouTube, Apple Music, SoundCloud tracks and playlists
+- **Video Conference** - Zoom, Google Meet, Microsoft Teams, Webex meeting links
+
+#### 📍 Location & Other
+- **Locations** - Geo coordinates for maps and directions
+- **Text** - Copy any plain text content
 
 ## 🚀 Quick Start
 
@@ -239,16 +273,38 @@ const { currentScan, isScanning } = useScanStore();
 
 ### Intent Detection
 
-Multi-stage detection pipeline with priority ordering:
+Multi-stage detection pipeline with intelligent priority ordering:
 
+#### Priority Tier 1: Highly Specific Formats
 1. **WiFi** - Structured WiFi credentials
-2. **Payment** - UPI, crypto, payment URLs
-3. **Event** - Calendar events (vCalendar)
-4. **Contact** - vCard contact information
-5. **Location** - Geo coordinates
-6. **Email/Phone/SMS** - Communication intents
-7. **URLs** - Web and app links
-8. **Text** - Plain text fallback
+2. **TOTP/OTP** - Authenticator setup URIs
+3. **FIDO** - Authentication credentials
+4. **EPC Payment** - European banking codes
+5. **MeCard** - Contact format
+
+#### Priority Tier 2: Structured Data
+6. **Payment** - Crypto wallets, UPI, payment URIs
+7. **Event** - Calendar events (iCal/vCalendar)
+8. **Contact** - vCard information
+9. **Location** - Geo coordinates
+
+#### Priority Tier 3: Messaging Platforms
+10. **WhatsApp** - Chat links
+11. **Telegram** - User/channel/group links
+12. **Email** - Mailto links
+13. **Phone** - Tel links
+14. **SMS** - SMS links
+
+#### Priority Tier 4: Media & Social
+15. **Video Conference** - Meeting links (Zoom, Meet, Teams, Webex)
+16. **Social Media** - Profile links (Instagram, Twitter, LinkedIn, etc.)
+17. **Music/Media** - Streaming platform links (Spotify, YouTube, etc.)
+18. **App Store** - iOS and Android app links
+
+#### Priority Tier 5: Generic & Fallback
+19. **App Links** - Deep links
+20. **URLs** - Generic web links
+21. **Text** - Plain text fallback
 
 ### Performance
 
@@ -281,13 +337,42 @@ See [PRIVACY_POLICY.md](./PRIVACY_POLICY.md) for details.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Whether it's adding new QR code types, improving detection accuracy, or enhancing the UI.
+
+### How to Add a New QR Code Type
+
+1. **Create Detector** (`detectors/your-type-detector.ts`)
+   - Implement pattern matching logic
+   - Return confidence score (0-1)
+
+2. **Create Parser** (`parsers/your-type-parser.ts`)
+   - Extract structured data from raw QR content
+   - Handle edge cases and errors
+
+3. **Create Handler** (`handlers/your-type-handler.ts`)
+   - Implement primary action (e.g., open app, save data)
+   - Add secondary actions (copy, share, etc.)
+
+4. **Create Preview** (`components/previews/YourTypePreview.tsx`)
+   - Design UI to display parsed data
+   - Follow existing preview patterns
+
+5. **Integrate**
+   - Add to `IntentDetectorOrchestrator`
+   - Update `parse-orchestrator.ts`
+   - Update `scan-actions.ts`
+   - Update `PreviewOrchestrator.tsx`
+   - Export from index files
+
+### Pull Request Process
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+3. Write tests for new functionality
+4. Ensure no linting errors (`npm run lint`)
+5. Commit your changes (`git commit -m 'Add some amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request with detailed description
 
 ## 📝 License
 
@@ -295,26 +380,86 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Built with [Expo](https://expo.dev)
-- QR code detection powered by device cameras
-- Icons from [@expo/vector-icons](https://icons.expo.fyi)
+- Built with [Expo](https://expo.dev) and [React Native](https://reactnative.dev)
+- QR code detection powered by native device cameras
+- Icons and emojis for beautiful UI
 - Maps by [Google Maps Platform](https://developers.google.com/maps)
+- Inspired by the need for a comprehensive, privacy-focused scanner
+
+## 📊 Statistics
+
+- **21** QR code types supported
+- **100+** files of clean, documented code
+- **0** data collection or tracking
+- **<100ms** average detection time
+- **TypeScript** for type safety
+- **Open source** and free forever
 
 ## 📧 Contact
 
 - **GitHub**: [@iceinvein](https://github.com/iceinvein)
 - **Project**: [qr-scanner](https://github.com/iceinvein/qr-scanner)
 
+## ✨ What Makes This Scanner Special?
+
+### Comprehensive Type Support
+- **21 different QR code types** - Most comprehensive scanner available
+- **Smart detection** - Automatically identifies format and extracts data
+- **Native actions** - Direct integration with device apps and services
+
+### Privacy-First Design
+- **100% local processing** - No data ever leaves your device
+- **No tracking** - Zero analytics, no user profiling
+- **No ads** - Clean, distraction-free experience
+- **Open source** - Fully transparent codebase
+
+### Developer-Friendly
+- **TypeScript** - Fully typed for safety and IDE support
+- **Modular architecture** - Easy to extend with new types
+- **Well-documented** - Comprehensive guides and comments
+- **Best practices** - Clean code, proper error handling, haptic feedback
+
+## 🎯 Use Cases
+
+### Personal
+- Set up 2FA authenticators
+- Connect to WiFi networks
+- Save contacts and calendar events
+- Join video meetings
+- Share social media profiles
+
+### Business
+- Process customer payments (crypto, SEPA)
+- Share business cards with MeCard
+- Distribute meeting links
+- Market through social QR codes
+- Accept European bank transfers
+
+### Technical
+- FIDO authentication setup
+- App deep linking
+- OAuth/TOTP flows
+- Developer tool QR codes
+
 ## 🗺️ Roadmap
 
+### Near-Term
 - [ ] Batch scanning mode
-- [ ] QR code generation
 - [ ] Scan history with search
-- [ ] Export/import scan history
-- [ ] Custom QR code templates
+- [ ] Export/import history (CSV, JSON)
+- [ ] Custom QR code generation
+
+### Mid-Term
 - [ ] Widget support (iOS/Android)
-- [ ] Apple Watch companion app
 - [ ] Shortcuts integration
+- [ ] Multi-language support
+- [ ] Advanced filtering options
+
+### Long-Term
+- [ ] Apple Watch companion app
+- [ ] QR code analytics (local only)
+- [ ] Custom template designer
+- [ ] Browser extension
 
 ---
 

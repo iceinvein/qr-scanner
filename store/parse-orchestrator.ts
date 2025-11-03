@@ -4,15 +4,25 @@
 
 import {
     AppLinkParser,
+    AppStoreParser,
     ContactParser,
     EmailParser,
+    EPCPaymentParser,
     EventParser,
+    FIDOParser,
     LocationParser,
+    MeCardParser,
+    MusicMediaParser,
     PaymentParser,
     PhoneParser,
     SMSParser,
+    SocialMediaParser,
+    TelegramParser,
     TextParser,
+    TOTPParser,
     URLParser,
+    VideoConferenceParser,
+    WhatsAppParser,
     WiFiParser,
 } from "../parsers";
 import type { DetectedIntent } from "../types/intents";
@@ -30,6 +40,16 @@ const eventParser = new EventParser();
 const locationParser = new LocationParser();
 const paymentParser = new PaymentParser();
 const appLinkParser = new AppLinkParser();
+const fidoParser = new FIDOParser();
+const totpParser = new TOTPParser();
+const whatsappParser = new WhatsAppParser();
+const telegramParser = new TelegramParser();
+const mecardParser = new MeCardParser();
+const videoConferenceParser = new VideoConferenceParser();
+const socialMediaParser = new SocialMediaParser();
+const musicMediaParser = new MusicMediaParser();
+const appStoreParser = new AppStoreParser();
+const epcPaymentParser = new EPCPaymentParser();
 const textParser = new TextParser();
 
 /**
@@ -69,6 +89,36 @@ export const parseContent = (
 
 			case IntentType.APP_LINK:
 				return appLinkParser.parse(intent.rawData);
+
+			case IntentType.FIDO:
+				return fidoParser.parse(intent.rawData);
+
+			case IntentType.TOTP:
+				return totpParser.parse(intent.rawData);
+
+			case IntentType.WHATSAPP:
+				return whatsappParser.parse(intent.rawData);
+
+			case IntentType.TELEGRAM:
+				return telegramParser.parse(intent.rawData);
+
+			case IntentType.MECARD:
+				return mecardParser.parse(intent.rawData);
+
+			case IntentType.VIDEO_CONFERENCE:
+				return videoConferenceParser.parse(intent.rawData);
+
+			case IntentType.SOCIAL_MEDIA:
+				return socialMediaParser.parse(intent.rawData);
+
+			case IntentType.MUSIC_MEDIA:
+				return musicMediaParser.parse(intent.rawData);
+
+			case IntentType.APP_STORE:
+				return appStoreParser.parse(intent.rawData);
+
+			case IntentType.EPC_PAYMENT:
+				return epcPaymentParser.parse(intent.rawData);
 
 			case IntentType.TEXT:
 				return textParser.parse(intent.rawData);

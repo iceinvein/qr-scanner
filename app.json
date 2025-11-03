@@ -32,7 +32,7 @@
       "package": "com.iceinveins.qrscanner",
       "versionCode": 1,
       "adaptiveIcon": {
-        "backgroundColor": "#007AFF",
+        "backgroundColor": "#ffffff",
         "foregroundImage": "./assets/images/icon.png"
       },
       "permissions": [

@@ -5,15 +5,25 @@
 import { IntentDetectorOrchestrator } from "../detectors/intent-detector-orchestrator";
 import {
     AppLinkHandler,
+    AppStoreHandler,
     ContactHandler,
     EmailHandler,
+    EPCPaymentHandler,
     EventHandler,
+    FIDOHandler,
     LocationHandler,
+    MeCardHandler,
+    MusicMediaHandler,
     PaymentHandler,
     PhoneHandler,
     SMSHandler,
+    SocialMediaHandler,
+    TelegramHandler,
     TextHandler,
+    TOTPHandler,
     URLHandler,
+    VideoConferenceHandler,
+    WhatsAppHandler,
     WiFiHandler,
 } from "../handlers";
 import { errorHandler } from "../services/error-handler-service";
@@ -47,6 +57,16 @@ const emailHandler = new EmailHandler();
 const phoneHandler = new PhoneHandler();
 const smsHandler = new SMSHandler();
 const locationHandler = new LocationHandler();
+const fidoHandler = new FIDOHandler();
+const totpHandler = new TOTPHandler();
+const whatsappHandler = new WhatsAppHandler();
+const telegramHandler = new TelegramHandler();
+const mecardHandler = new MeCardHandler();
+const videoConferenceHandler = new VideoConferenceHandler();
+const socialMediaHandler = new SocialMediaHandler();
+const musicMediaHandler = new MusicMediaHandler();
+const appStoreHandler = new AppStoreHandler();
+const epcPaymentHandler = new EPCPaymentHandler();
 const textHandler = new TextHandler();
 
 /**
@@ -74,6 +94,26 @@ const getHandler = (intentType: IntentType) => {
 			return smsHandler;
 		case IntentType.LOCATION:
 			return locationHandler;
+		case IntentType.FIDO:
+			return fidoHandler;
+		case IntentType.TOTP:
+			return totpHandler;
+		case IntentType.WHATSAPP:
+			return whatsappHandler;
+		case IntentType.TELEGRAM:
+			return telegramHandler;
+		case IntentType.MECARD:
+			return mecardHandler;
+		case IntentType.VIDEO_CONFERENCE:
+			return videoConferenceHandler;
+		case IntentType.SOCIAL_MEDIA:
+			return socialMediaHandler;
+		case IntentType.MUSIC_MEDIA:
+			return musicMediaHandler;
+		case IntentType.APP_STORE:
+			return appStoreHandler;
+		case IntentType.EPC_PAYMENT:
+			return epcPaymentHandler;
 		case IntentType.TEXT:
 			return textHandler;
 		default:
@@ -257,9 +297,28 @@ const getUserFriendlyErrorMessage = (
 		case IntentType.EVENT:
 			return "Unable to add event. You can copy the event details instead.";
 		case IntentType.CONTACT:
+		case IntentType.MECARD:
 			return "Unable to add contact. You can copy the contact details instead.";
 		case IntentType.APP_LINK:
 			return "Unable to open app. You can copy the link instead.";
+		case IntentType.FIDO:
+			return "Unable to process FIDO credential. You can copy the authentication data instead.";
+		case IntentType.TOTP:
+			return "Unable to setup authenticator. You can copy the secret key instead.";
+		case IntentType.WHATSAPP:
+			return "Unable to open WhatsApp. You can copy the phone number instead.";
+		case IntentType.TELEGRAM:
+			return "Unable to open Telegram. You can copy the link instead.";
+		case IntentType.VIDEO_CONFERENCE:
+			return "Unable to join meeting. You can copy the meeting link instead.";
+		case IntentType.SOCIAL_MEDIA:
+			return "Unable to open profile. You can copy the link instead.";
+		case IntentType.MUSIC_MEDIA:
+			return "Unable to open media. You can copy the link instead.";
+		case IntentType.APP_STORE:
+			return "Unable to open app store. You can copy the link instead.";
+		case IntentType.EPC_PAYMENT:
+			return "Payment details copied. Use them in your banking app.";
 		case IntentType.UNKNOWN:
 			return "Couldn't recognize this QR code format. You can copy the content instead.";
 		default:

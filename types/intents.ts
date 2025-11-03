@@ -19,6 +19,16 @@ export enum IntentType {
   LOCATION = 'location',
   PAYMENT = 'payment',
   APP_LINK = 'app_link',
+  FIDO = 'fido',
+  TOTP = 'totp',
+  WHATSAPP = 'whatsapp',
+  TELEGRAM = 'telegram',
+  MECARD = 'mecard',
+  VIDEO_CONFERENCE = 'video_conference',
+  SOCIAL_MEDIA = 'social_media',
+  MUSIC_MEDIA = 'music_media',
+  APP_STORE = 'app_store',
+  EPC_PAYMENT = 'epc_payment',
   TEXT = 'text',
   UNKNOWN = 'unknown'
 }

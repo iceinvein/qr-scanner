@@ -1,12 +1,22 @@
 export { AppLinkPreview } from "./AppLinkPreview";
+export { AppStorePreview } from "./AppStorePreview";
 export { ContactPreview } from "./ContactPreview";
 export { EmailPreview } from "./EmailPreview";
+export { EPCPaymentPreview } from "./EPCPaymentPreview";
 export { EventPreview } from "./EventPreview";
+export { FIDOPreview } from "./FIDOPreview";
 export { LocationPreview } from "./LocationPreview";
+export { MeCardPreview } from "./MeCardPreview";
+export { MusicMediaPreview } from "./MusicMediaPreview";
 export { PaymentPreview } from "./PaymentPreview";
 export { PhonePreview } from "./PhonePreview";
+export { SocialMediaPreview } from "./SocialMediaPreview";
+export { TelegramPreview } from "./TelegramPreview";
 export { TextPreview } from "./TextPreview";
+export { TOTPPreview } from "./TOTPPreview";
 export { URLPreview } from "./URLPreview";
 export { UnknownPreview } from "./UnknownPreview";
+export { VideoConferencePreview } from "./VideoConferencePreview";
+export { WhatsAppPreview } from "./WhatsAppPreview";
 export { WiFiPreview } from "./WiFiPreview";
 
