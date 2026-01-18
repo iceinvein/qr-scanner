@@ -10,6 +10,11 @@ export class FIDOParser implements ContentParser<FIDOData> {
 		try {
 			const trimmedData = rawData.trim();
 			
+			// Parse FIDO passkey QR format (FIDO:/digits) - caBLE/hybrid transport
+			if (/^FIDO:\/\d/i.test(trimmedData)) {
+				return this.parsePasskeyQR(trimmedData);
+			}
+
 			// Try to parse FIDO URI scheme (fido:// or webauthn://)
 			if (trimmedData.startsWith("fido://") || trimmedData.startsWith("webauthn://")) {
 				return this.parseFidoUri(trimmedData);
@@ -44,6 +49,27 @@ export class FIDOParser implements ContentParser<FIDOData> {
 				error: `Failed to parse FIDO data: ${error instanceof Error ? error.message : "Unknown error"}`,
 			};
 		}
+	}
+
+	/**
+	 * Parse FIDO passkey QR format (caBLE/hybrid transport)
+	 * Format: FIDO:/DIGITS where digits encode tunnel server info and public key
+	 * This is used for cross-device authentication (scanning with phone)
+	 */
+	private parsePasskeyQR(data: string): ParsedContent<FIDOData> {
+		// The data after FIDO:/ is numeric and encodes:
+		// - Domain (tunnel server routing ID)  
+		// - Public key for establishing encrypted tunnel
+		const payload = data.replace(/^FIDO:\//i, "");
+		
+		return {
+			success: true,
+			data: {
+				protocol: "fido2-hybrid",
+				credentialId: payload,
+				rawData: data,
+			},
+		};
 	}
 
 	/**

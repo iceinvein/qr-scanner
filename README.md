@@ -5,6 +5,7 @@ A powerful, privacy-focused QR code scanner built with React Native and Expo. Su
 ## ✨ Features
 
 ### Core Features
+
 - 📷 **21 QR Code Types** - Most comprehensive scanner available
 - 🔐 **Privacy-First** - 100% local processing, zero tracking
 - 🎯 **Smart Detection** - Automatically identifies format and extracts data
@@ -13,20 +14,23 @@ A powerful, privacy-focused QR code scanner built with React Native and Expo. Su
 - 📱 **Native Integration** - Direct actions with device apps
 
 ### Developer Features
+
 - 💻 **TypeScript** - Fully typed for safety and IDE support
 - 🏗️ **Modular Architecture** - Easy to extend with new types
 - 📚 **Well Documented** - Comprehensive guides and inline comments
 - 🧪 **Best Practices** - Clean code, error handling, haptic feedback
-- 🚀 **Modern Stack** - Expo, React Native, Nanostores
+- 🚀 **Modern Stack** - Expo, React Native, Nanostores, Bun
 
 ### Supported QR Code Types (21 Total!)
 
 #### 🔐 Authentication & Security
+
 - **TOTP/OTP** - 2FA setup for Google Authenticator, Authy, and other authenticator apps
 - **FIDO** - Fast Identity Online authentication for passwordless login
 - **WiFi** - Connect to networks instantly with credentials
 
 #### 💬 Messaging & Communication
+
 - **WhatsApp** - Open chats with pre-filled messages
 - **Telegram** - Access users, channels, groups, and bots
 - **Email** - Compose emails with recipients, subject, and body
@@ -34,26 +38,31 @@ A powerful, privacy-focused QR code scanner built with React Native and Expo. Su
 - **SMS** - Send text messages
 
 #### 👥 Contacts & Events
+
 - **Contacts (vCard)** - Save contact information with full vCard support
 - **MeCard** - Alternative contact format (popular in Japan)
 - **Events (iCal)** - Add calendar events with date, time, and location
 
 #### 💳 Payments
+
 - **Crypto Payments** - Bitcoin, Ethereum, and other cryptocurrencies
 - **UPI/Payment Links** - PayPal, Venmo, and payment processors
 - **EPC/SEPA** - European banking QR codes (IBAN, BIC, amounts)
 
 #### 🌐 Web & Apps
+
 - **URLs** - Open websites and web apps
 - **App Links** - Deep links to specific app screens
 - **App Store** - Apple App Store and Google Play Store links
 
 #### 🎬 Social & Media
+
 - **Social Media** - Instagram, Twitter/X, LinkedIn, Facebook, TikTok, YouTube, Snapchat profiles
 - **Music/Media** - Spotify, YouTube, Apple Music, SoundCloud tracks and playlists
 - **Video Conference** - Zoom, Google Meet, Microsoft Teams, Webex meeting links
 
 #### 📍 Location & Other
+
 - **Locations** - Geo coordinates for maps and directions
 - **Text** - Copy any plain text content
 
@@ -61,43 +70,47 @@ A powerful, privacy-focused QR code scanner built with React Native and Expo. Su
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- [Bun](https://bun.sh) 1.1+ (recommended) or Node.js 18+
 - iOS: Xcode 15+ and CocoaPods
 - Android: Android Studio and JDK 17
-- Expo CLI: `npm install -g expo-cli`
-- EAS CLI: `npm install -g eas-cli`
+- EAS CLI: `bun install -g eas-cli`
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/iceinvein/qr-scanner.git
    cd qr-scanner
    ```
 
 2. **Install dependencies**
+
    ```bash
-   npm install
+   bun install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.local.example .env.local
    # Edit .env.local with your configuration
    ```
 
 4. **Start the development server**
+
    ```bash
-   npm start
+   bun start
    ```
 
 5. **Run on device/simulator**
+
    ```bash
    # iOS
-   npm run ios
+   bun ios
    
    # Android
-   npm run android
+   bun android
    ```
 
 ## 🏗️ Project Structure
@@ -197,6 +210,7 @@ eas build --platform android --profile production-android
    - Set up service account for API access
 
 3. **Configure Fastlane**
+
    ```bash
    cp fastlane/.env.fastlane.example fastlane/.env.fastlane
    # Edit with your credentials
@@ -244,7 +258,7 @@ fastlane android validate
 ### Run Tests
 
 ```bash
-npm test
+bun test
 ```
 
 ## 📚 Documentation
@@ -276,6 +290,7 @@ const { currentScan, isScanning } = useScanStore();
 Multi-stage detection pipeline with intelligent priority ordering:
 
 #### Priority Tier 1: Highly Specific Formats
+
 1. **WiFi** - Structured WiFi credentials
 2. **TOTP/OTP** - Authenticator setup URIs
 3. **FIDO** - Authentication credentials
@@ -283,28 +298,32 @@ Multi-stage detection pipeline with intelligent priority ordering:
 5. **MeCard** - Contact format
 
 #### Priority Tier 2: Structured Data
-6. **Payment** - Crypto wallets, UPI, payment URIs
-7. **Event** - Calendar events (iCal/vCalendar)
-8. **Contact** - vCard information
-9. **Location** - Geo coordinates
+
+1. **Payment** - Crypto wallets, UPI, payment URIs
+2. **Event** - Calendar events (iCal/vCalendar)
+3. **Contact** - vCard information
+4. **Location** - Geo coordinates
 
 #### Priority Tier 3: Messaging Platforms
-10. **WhatsApp** - Chat links
-11. **Telegram** - User/channel/group links
-12. **Email** - Mailto links
-13. **Phone** - Tel links
-14. **SMS** - SMS links
+
+1. **WhatsApp** - Chat links
+2. **Telegram** - User/channel/group links
+3. **Email** - Mailto links
+4. **Phone** - Tel links
+5. **SMS** - SMS links
 
 #### Priority Tier 4: Media & Social
-15. **Video Conference** - Meeting links (Zoom, Meet, Teams, Webex)
-16. **Social Media** - Profile links (Instagram, Twitter, LinkedIn, etc.)
-17. **Music/Media** - Streaming platform links (Spotify, YouTube, etc.)
-18. **App Store** - iOS and Android app links
+
+1. **Video Conference** - Meeting links (Zoom, Meet, Teams, Webex)
+2. **Social Media** - Profile links (Instagram, Twitter, LinkedIn, etc.)
+3. **Music/Media** - Streaming platform links (Spotify, YouTube, etc.)
+4. **App Store** - iOS and Android app links
 
 #### Priority Tier 5: Generic & Fallback
-19. **App Links** - Deep links
-20. **URLs** - Generic web links
-21. **Text** - Plain text fallback
+
+1. **App Links** - Deep links
+2. **URLs** - Generic web links
+3. **Text** - Plain text fallback
 
 ### Performance
 
@@ -326,6 +345,7 @@ See [PRIVACY_POLICY.md](./PRIVACY_POLICY.md) for details.
 ## 🛠️ Tech Stack
 
 - **Framework**: [Expo](https://expo.dev) / [React Native](https://reactnative.dev)
+- **Runtime**: [Bun](https://bun.sh)
 - **Language**: TypeScript
 - **Routing**: [Expo Router](https://docs.expo.dev/router/introduction/)
 - **Camera**: [expo-camera](https://docs.expo.dev/versions/latest/sdk/camera/)
@@ -369,7 +389,7 @@ Contributions are welcome! Whether it's adding new QR code types, improving dete
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
 3. Write tests for new functionality
-4. Ensure no linting errors (`npm run lint`)
+4. Ensure no linting errors (`bun run lint`)
 5. Commit your changes (`git commit -m 'Add some amazing feature'`)
 6. Push to the branch (`git push origin feature/amazing-feature`)
 7. Open a Pull Request with detailed description
@@ -403,17 +423,20 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## ✨ What Makes This Scanner Special?
 
 ### Comprehensive Type Support
+
 - **21 different QR code types** - Most comprehensive scanner available
 - **Smart detection** - Automatically identifies format and extracts data
 - **Native actions** - Direct integration with device apps and services
 
 ### Privacy-First Design
+
 - **100% local processing** - No data ever leaves your device
 - **No tracking** - Zero analytics, no user profiling
 - **No ads** - Clean, distraction-free experience
 - **Open source** - Fully transparent codebase
 
 ### Developer-Friendly
+
 - **TypeScript** - Fully typed for safety and IDE support
 - **Modular architecture** - Easy to extend with new types
 - **Well-documented** - Comprehensive guides and comments
@@ -422,6 +445,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🎯 Use Cases
 
 ### Personal
+
 - Set up 2FA authenticators
 - Connect to WiFi networks
 - Save contacts and calendar events
@@ -429,6 +453,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Share social media profiles
 
 ### Business
+
 - Process customer payments (crypto, SEPA)
 - Share business cards with MeCard
 - Distribute meeting links
@@ -436,31 +461,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Accept European bank transfers
 
 ### Technical
+
 - FIDO authentication setup
 - App deep linking
 - OAuth/TOTP flows
 - Developer tool QR codes
-
-## 🗺️ Roadmap
-
-### Near-Term
-- [ ] Batch scanning mode
-- [ ] Scan history with search
-- [ ] Export/import history (CSV, JSON)
-- [ ] Custom QR code generation
-
-### Mid-Term
-- [ ] Widget support (iOS/Android)
-- [ ] Shortcuts integration
-- [ ] Multi-language support
-- [ ] Advanced filtering options
-
-### Long-Term
-- [ ] Apple Watch companion app
-- [ ] QR code analytics (local only)
-- [ ] Custom template designer
-- [ ] Browser extension
-
----
-
-**Made with ❤️ using Expo and React Native**

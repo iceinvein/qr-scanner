@@ -194,6 +194,10 @@ export const PreviewOrchestrator: React.FC<PreviewOrchestratorProps> = ({
 			);
 
 		case IntentType.FIDO:
+			// Debug: Log the actual type of parsedContent.data
+			if (typeof parsedContent.data === 'string') {
+				console.warn('FIDO data is a string, expected FIDOData object:', parsedContent.data);
+			}
 			return (
 				<FIDOPreview
 					data={parsedContent.data as FIDOData}

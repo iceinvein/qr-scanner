@@ -12,9 +12,11 @@ import {
  */
 export class FIDODetector implements IntentDetector {
 	// FIDO URI schemes and patterns
+	// FIDO passkey QR codes use "FIDO:/" (single slash) per CTAP spec
+	private readonly fidoPasskeyPattern = /^FIDO:\/\d/i;
 	private readonly fidoSchemePattern = /^fido:\/\//i;
 	private readonly webauthnPattern = /^webauthn:\/\//i;
-	private readonly fidoJsonPattern = /^\{.*"type"\s*:\s*"(webauthn|fido2?)"/i;
+	private readonly fidoJsonPattern = /^\\{.*"type"\\s*:\\s*"(webauthn|fido2?)"/i;
 	private readonly fidoU2FPattern = /^U2F_V2/;
 	
 	// FIDO-specific keywords
@@ -32,6 +34,18 @@ export class FIDODetector implements IntentDetector {
 		const { data } = scanResult;
 		const trimmedData = data.trim();
 		const patterns: string[] = [];
+
+		// Check for FIDO passkey QR format (FIDO:/digits) - highest priority
+		// This is the cross-device authentication (caBLE/hybrid) format
+		if (this.fidoPasskeyPattern.test(trimmedData)) {
+			patterns.push("FIDO Passkey QR (caBLE/hybrid)");
+			return {
+				type: IntentType.FIDO,
+				confidence: 0.99,
+				rawData: data,
+				metadata: { patterns },
+			};
+		}
 
 		// Check for explicit FIDO URI scheme
 		if (this.fidoSchemePattern.test(trimmedData)) {

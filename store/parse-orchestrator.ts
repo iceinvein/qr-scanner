@@ -90,8 +90,18 @@ export const parseContent = (
 			case IntentType.APP_LINK:
 				return appLinkParser.parse(intent.rawData);
 
-			case IntentType.FIDO:
-				return fidoParser.parse(intent.rawData);
+			case IntentType.FIDO: {
+				const fidoResult = fidoParser.parse(intent.rawData);
+				// Debug: Log the parsed FIDO data
+				if (fidoResult.success && fidoResult.data) {
+					console.log('FIDO Parser result:', {
+						dataType: typeof fidoResult.data,
+						isString: typeof fidoResult.data === 'string',
+						data: fidoResult.data
+					});
+				}
+				return fidoResult;
+			}
 
 			case IntentType.TOTP:
 				return totpParser.parse(intent.rawData);

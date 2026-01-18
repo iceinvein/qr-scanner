@@ -16,6 +16,40 @@ export class FIDOHandler implements ActionHandler<FIDOData> {
 		hapticService.selection();
 
 		try {
+			// Handle FIDO2 hybrid/caBLE passkey QR - open original URI for native handling
+			if (data.protocol === "fido2-hybrid" && data.rawData) {
+				try {
+					const canOpen = await Linking.canOpenURL(data.rawData);
+					
+					if (canOpen) {
+						await Linking.openURL(data.rawData);
+						hapticService.success();
+						return {
+							success: true,
+						};
+					}
+					
+					// iOS may not report it can open FIDO: URLs, try anyway
+					await Linking.openURL(data.rawData);
+					hapticService.success();
+					return {
+						success: true,
+					};
+				} catch (error) {
+					// If opening fails, show helpful message
+					hapticService.error();
+					Alert.alert(
+						"Passkey Not Available",
+						"Your device couldn't open the passkey authentication. Make sure you have passkeys enabled in your device settings.",
+						[{ text: "OK" }]
+					);
+					return {
+						success: false,
+						error: "Failed to open passkey authentication",
+					};
+				}
+			}
+
 			// Try to open FIDO URI if it's a valid URI scheme
 			if (data.protocol === "fido" || data.protocol === "webauthn") {
 				const uri = this.constructFidoUri(data);

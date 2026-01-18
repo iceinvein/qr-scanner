@@ -16,21 +16,33 @@ export const FIDOPreview: React.FC<PreviewProps<FIDOData>> = memo(({
 	metadata,
 }) => {
 	const { theme } = useTheme();
-	
+
+	// Type guard: Handle case where data might be a string instead of FIDOData object
+	// This can happen if data gets serialized/deserialized incorrectly
+	const fidoData: FIDOData = typeof data === 'string'
+		? { protocol: 'fido', rawData: data }
+		: data;
+
+	// Check if this is a passkey QR (cross-device authentication)
+	const isPasskey = fidoData.protocol === 'fido2-hybrid';
+
+	// Determine primary action label based on type
+	const primaryActionLabel = isPasskey ? "Authenticate with Passkey" : "Use Credential";
+
 	// Build secondary actions based on available data
 	const secondaryActions: SecondaryAction[] = [
 		{ id: "copy", label: "Copy All" },
 	];
 
-	if (data.credentialId) {
+	if (fidoData.credentialId) {
 		secondaryActions.push({ id: "copy_credential_id", label: "Copy Credential ID" });
 	}
 
-	if (data.rpId) {
+	if (fidoData.rpId) {
 		secondaryActions.push({ id: "copy_rp_id", label: "Copy RP ID" });
 	}
 
-	if (data.challenge) {
+	if (fidoData.challenge) {
 		secondaryActions.push({ id: "copy_challenge", label: "Copy Challenge" });
 	}
 
@@ -48,43 +60,43 @@ export const FIDOPreview: React.FC<PreviewProps<FIDOData>> = memo(({
 	const detailItems: DetailItem[] = [];
 
 	// Add FIDO-specific details
-	if (data.rpId) {
-		detailItems.push({ 
-			label: "Relying Party", 
-			value: data.rpId, 
-			icon: "🏢" 
+	if (fidoData.rpId) {
+		detailItems.push({
+			label: "Relying Party",
+			value: fidoData.rpId,
+			icon: "🏢"
 		});
 	}
 
-	if (data.credentialId) {
-		detailItems.push({ 
-			label: "Credential ID", 
-			value: truncateString(data.credentialId, 30), 
-			icon: "🔑" 
+	if (fidoData.credentialId) {
+		detailItems.push({
+			label: "Credential ID",
+			value: truncateString(fidoData.credentialId, 30),
+			icon: "🔑"
 		});
 	}
 
-	if (data.challenge) {
-		detailItems.push({ 
-			label: "Challenge", 
-			value: truncateString(data.challenge, 30), 
-			icon: "🎲" 
+	if (fidoData.challenge) {
+		detailItems.push({
+			label: "Challenge",
+			value: truncateString(fidoData.challenge, 30),
+			icon: "🎲"
 		});
 	}
 
-	if (data.userId) {
-		detailItems.push({ 
-			label: "User ID", 
-			value: data.userId, 
-			icon: "👤" 
+	if (fidoData.userId) {
+		detailItems.push({
+			label: "User ID",
+			value: fidoData.userId,
+			icon: "👤"
 		});
 	}
 
-	if (data.attestation) {
-		detailItems.push({ 
-			label: "Attestation", 
-			value: data.attestation, 
-			icon: "✓" 
+	if (fidoData.attestation) {
+		detailItems.push({
+			label: "Attestation",
+			value: fidoData.attestation,
+			icon: "✓"
 		});
 	}
 
@@ -111,70 +123,72 @@ export const FIDOPreview: React.FC<PreviewProps<FIDOData>> = memo(({
 		<PreviewModal
 			isVisible={true}
 			onDismiss={onDismiss}
-			title="FIDO Authentication"
-			primaryActionLabel="Use Credential"
+			title={isPasskey ? "Passkey Authentication" : "FIDO Authentication"}
+			primaryActionLabel={primaryActionLabel}
 			onPrimaryAction={onPrimaryAction}
 			secondaryActions={secondaryActions}
 			onSecondaryAction={onSecondaryAction}
 			isLoading={isProcessing}
 		>
 			<View style={styles.container} accessible={false}>
-				<View 
+				<View
 					style={[styles.protocolBadge, { backgroundColor: theme.primary }]}
 					accessible={true}
-					accessibilityLabel={`Protocol: ${data.protocol}`}
+					accessibilityLabel={`Protocol: ${fidoData.protocol}`}
 					accessibilityRole="text"
 				>
 					<Text style={[styles.protocolText, { color: theme.primaryText }]}>
-						{data.protocol.toUpperCase()}
+						{isPasskey ? "PASSKEY" : fidoData.protocol.toUpperCase()}
 					</Text>
 				</View>
 
 				<View style={styles.infoSection}>
 					<Text style={[styles.infoTitle, { color: theme.text }]}>
-						Authentication Credential
+						{isPasskey ? "Cross-Device Authentication" : "Authentication Credential"}
 					</Text>
 					<Text style={[styles.infoDescription, { color: theme.textSecondary }]}>
-						This QR code contains FIDO authentication data for passwordless login.
+						{isPasskey 
+							? "Tap below to authenticate using your device's passkey (Face ID, Touch ID, or PIN)."
+							: "This QR code contains FIDO authentication data for passwordless login."}
 					</Text>
 				</View>
 
-				{data.rpId && (
-					<View 
-						style={styles.section} 
-						accessible={true} 
-						accessibilityLabel={`Relying Party: ${data.rpId}`}
+				{fidoData.rpId && (
+					<View
+						style={styles.section}
+						accessible={true}
+						accessibilityLabel={`Relying Party: ${fidoData.rpId}`}
 					>
 						<Text style={[styles.label, { color: theme.textSecondary }]}>
 							Relying Party ID
 						</Text>
 						<Text style={[styles.value, { color: theme.text }]} numberOfLines={2}>
-							{data.rpId}
+							{fidoData.rpId}
 						</Text>
 					</View>
 				)}
 
-				{data.credentialId && (
-					<View 
+				{fidoData.credentialId && (
+					<View
 						style={styles.section}
 						accessible={true}
-						accessibilityLabel={`Credential ID: ${truncateString(data.credentialId, 40)}`}
+						accessibilityLabel={`Credential ID: ${truncateString(fidoData.credentialId, 40)}`}
 					>
 						<Text style={[styles.label, { color: theme.textSecondary }]}>
 							Credential ID
 						</Text>
-						<Text 
-							style={[styles.value, styles.monoText, { color: theme.text }]} 
+						<Text
+							style={[styles.value, styles.monoText, { color: theme.text }]}
 							numberOfLines={2}
 							ellipsizeMode="middle"
 						>
-							{truncateString(data.credentialId, 50)}
+							{truncateString(fidoData.credentialId, 50)}
 						</Text>
 					</View>
 				)}
 
-				{data.challenge && (
-					<View 
+				{fidoData.challenge && (
+					<View
 						style={styles.section}
 						accessible={true}
 						accessibilityLabel={`Challenge present`}
@@ -182,27 +196,27 @@ export const FIDOPreview: React.FC<PreviewProps<FIDOData>> = memo(({
 						<Text style={[styles.label, { color: theme.textSecondary }]}>
 							Challenge
 						</Text>
-						<Text 
-							style={[styles.value, styles.monoText, { color: theme.text }]} 
+						<Text
+							style={[styles.value, styles.monoText, { color: theme.text }]}
 							numberOfLines={2}
 							ellipsizeMode="middle"
 						>
-							{truncateString(data.challenge, 50)}
+							{truncateString(fidoData.challenge, 50)}
 						</Text>
 					</View>
 				)}
 
-				{data.userId && (
-					<View 
+				{fidoData.userId && (
+					<View
 						style={styles.section}
 						accessible={true}
-						accessibilityLabel={`User ID: ${data.userId}`}
+						accessibilityLabel={`User ID: ${fidoData.userId}`}
 					>
 						<Text style={[styles.label, { color: theme.textSecondary }]}>
 							User ID
 						</Text>
 						<Text style={[styles.value, { color: theme.text }]}>
-							{data.userId}
+							{fidoData.userId}
 						</Text>
 					</View>
 				)}
