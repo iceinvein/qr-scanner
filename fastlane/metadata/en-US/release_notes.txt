@@ -1,0 +1,10 @@
+Initial release of QR Scanner!
+
+• Universal QR code scanning with smart content detection
+• Support for 12+ QR code types
+• Beautiful dark mode support
+• Quick actions for all content types
+• Privacy-focused: all scanning happens on device
+• Guided scanning with visual target frame
+
+Thank you for downloading QR Scanner!

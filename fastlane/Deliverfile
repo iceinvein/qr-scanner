@@ -1,0 +1,15 @@
+# Deliverfile - iOS App Store Connect configuration
+# Uses env-driven values; lanes can override these.
+
+username ENV["APPLE_ID"] if ENV["APPLE_ID"]
+app_identifier ENV["IOS_BUNDLE_IDENTIFIER"] if ENV["IOS_BUNDLE_IDENTIFIER"]
+
+metadata_path "fastlane/metadata"
+screenshots_path "fastlane/screenshots"
+
+# Common toggles (lanes may override)
+skip_screenshots ENV["DELIVER_SKIP_SCREENSHOTS"] == "1"
+overwrite_screenshots ENV["DELIVER_OVERWRITE_SCREENSHOTS"] == "1"
+skip_binary_upload true
+force true
+submit_for_review false

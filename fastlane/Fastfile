@@ -1,0 +1,129 @@
+# fastlane/Fastfile
+# Automation for QR Scanner app store submissions
+# Env vars are auto-loaded from fastlane/.env.default
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Validate iOS App Store metadata"
+  lane :validate do
+    precheck(
+      app_identifier: ENV.fetch("IOS_BUNDLE_IDENTIFIER"),
+      skip_binary_upload: true
+    )
+  end
+
+  desc "Upload iOS metadata and screenshots to App Store Connect"
+  lane :upload_metadata do
+    deliver(
+      app_identifier: ENV.fetch("IOS_BUNDLE_IDENTIFIER"),
+      skip_binary_upload: true,
+      skip_screenshots: ENV['DELIVER_SKIP_SCREENSHOTS'] == '1',
+      force: true,
+      submit_for_review: false
+    )
+  end
+
+  desc "Submit iOS app for review"
+  lane :submit do
+    deliver(
+      app_identifier: ENV.fetch("IOS_BUNDLE_IDENTIFIER"),
+      skip_metadata: true,
+      skip_screenshots: true,
+      submit_for_review: true,
+      automatic_release: false,
+      submission_information: {
+        add_id_info_uses_idfa: false
+      }
+    )
+  end
+end
+
+platform :android do
+  desc "Validate Google Play metadata and assets"
+  lane :validate do
+    track = ENV.fetch('SUPPLY_TRACK', 'internal')
+    pkg = ENV['SUPPLY_PACKAGE_NAME'] || ENV.fetch('ANDROID_PACKAGE')
+
+    # Resolve versionCode from track if not provided
+    vc = (ENV['SUPPLY_VERSION_CODE'].to_i rescue 0)
+    if vc <= 0
+      codes = google_play_track_version_codes(
+        json_key: ENV['GOOGLE_SERVICE_ACCOUNT_KEY_PATH'],
+        package_name: pkg,
+        track: track
+      )
+      vc = codes.max if codes && codes.any?
+    end
+
+    supply(
+      validate_only: true,
+      json_key: ENV['GOOGLE_SERVICE_ACCOUNT_KEY_PATH'],
+      package_name: pkg,
+      track: track,
+      version_code: vc,
+      skip_upload_changelogs: ENV['SUPPLY_SKIP_CHANGELOGS'] == '1',
+      skip_upload_screenshots: ENV['SUPPLY_SKIP_SCREENSHOTS'] == '1',
+      skip_upload_images: ENV['SUPPLY_SKIP_IMAGES'] == '1'
+    )
+  end
+
+  desc "Upload Android metadata and assets to Google Play"
+  lane :upload_metadata do
+    track = ENV.fetch('SUPPLY_TRACK', 'internal')
+    pkg = ENV['SUPPLY_PACKAGE_NAME'] || ENV.fetch('ANDROID_PACKAGE')
+
+    supply(
+      json_key: ENV['GOOGLE_SERVICE_ACCOUNT_KEY_PATH'],
+      package_name: pkg,
+      track: track,
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_changelogs: ENV['SUPPLY_SKIP_CHANGELOGS'] == '1',
+      skip_upload_screenshots: ENV['SUPPLY_SKIP_SCREENSHOTS'] == '1',
+      skip_upload_images: ENV['SUPPLY_SKIP_IMAGES'] == '1'
+    )
+  end
+
+  desc "Upload AAB to Google Play internal track"
+  lane :deploy_internal do
+    supply(
+      json_key: ENV['GOOGLE_SERVICE_ACCOUNT_KEY_PATH'],
+      package_name: ENV['SUPPLY_PACKAGE_NAME'] || ENV.fetch('ANDROID_PACKAGE'),
+      track: 'internal',
+      aab: ENV['AAB_PATH'],
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_screenshots: true,
+      skip_upload_images: true
+    )
+  end
+
+  desc "Promote from internal to beta"
+  lane :promote_to_beta do
+    supply(
+      json_key: ENV['GOOGLE_SERVICE_ACCOUNT_KEY_PATH'],
+      package_name: ENV['SUPPLY_PACKAGE_NAME'] || ENV.fetch('ANDROID_PACKAGE'),
+      track: 'internal',
+      track_promote_to: 'beta',
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_screenshots: true,
+      skip_upload_images: true
+    )
+  end
+
+  desc "Promote from beta to production"
+  lane :promote_to_production do
+    supply(
+      json_key: ENV['GOOGLE_SERVICE_ACCOUNT_KEY_PATH'],
+      package_name: ENV['SUPPLY_PACKAGE_NAME'] || ENV.fetch('ANDROID_PACKAGE'),
+      track: 'beta',
+      track_promote_to: 'production',
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_screenshots: true,
+      skip_upload_images: true
+    )
+  end
+end

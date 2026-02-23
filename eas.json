@@ -32,29 +32,17 @@
       "android": {
         "buildType": "app-bundle"
       }
-    },
-    "production-ios": {
-      "extends": "production",
-      "ios": {
-        "resourceClass": "m-medium"
-      }
-    },
-    "production-android": {
-      "extends": "production",
-      "android": {
-        "buildType": "app-bundle"
-      }
     }
   },
   "submit": {
     "production": {
       "ios": {
-        "appleId": "${APPLE_ID}",
-        "ascAppId": "${ASC_APP_ID}",
-        "appleTeamId": "${APPLE_TEAM_ID}"
+        "appleId": "dikrana@msn.com",
+        "ascAppId": "6754769767",
+        "appleTeamId": "UT6J7B9B3Z"
       },
       "android": {
-        "serviceAccountKeyPath": "${GOOGLE_SERVICE_ACCOUNT_KEY_PATH}",
+        "serviceAccountKeyPath": "./qr-scanner-476813-8c08c7d4069e.json",
         "track": "internal"
       }
     }

@@ -1,0 +1,16 @@
+# Supplyfile - Google Play Console configuration
+# Uses env-driven values; lanes can override these.
+
+json_key ENV["GOOGLE_SERVICE_ACCOUNT_KEY_PATH"] if ENV["GOOGLE_SERVICE_ACCOUNT_KEY_PATH"]
+package_name ENV["ANDROID_PACKAGE"] if ENV["ANDROID_PACKAGE"]
+track ENV.fetch("SUPPLY_TRACK", "internal")
+
+# Common toggles (lanes may override)
+skip_upload_images ENV["SUPPLY_SKIP_IMAGES"] == "1"
+skip_upload_screenshots ENV["SUPPLY_SKIP_SCREENSHOTS"] == "1"
+skip_upload_changelogs ENV["SUPPLY_SKIP_CHANGELOGS"] == "1"
+changes_not_sent_for_review true
+
+# Keep default to metadata-only; lanes may set aab/apk
+skip_upload_aab true
+skip_upload_apk true

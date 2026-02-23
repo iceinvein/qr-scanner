@@ -1,0 +1,39 @@
+QR Scanner - Fast, Smart, and Secure
+
+Scan any QR code and instantly understand what it contains. QR Scanner automatically detects the type of content and provides smart actions to help you take the next step.
+
+KEY FEATURES:
+
+• Universal QR Code Support
+Scan any type of QR code: URLs, WiFi credentials, contacts, calendar events, phone numbers, emails, SMS messages, locations, payment addresses, and more.
+
+• Smart Content Detection
+Automatically identifies what type of information is in the QR code and shows you relevant details in an easy-to-read format.
+
+• Quick Actions
+Take immediate action with one tap: open websites, connect to WiFi networks, save contacts, add calendar events, make calls, send emails, view locations on maps, and more.
+
+• Beautiful Dark Mode
+Seamlessly switches between light and dark themes based on your system preferences for comfortable scanning in any lighting condition.
+
+• Privacy Focused
+All scanning happens on your device. No data is sent to external servers. Your scanned content stays private.
+
+• Guided Scanning
+Visual target frame helps you position QR codes perfectly for fast and accurate scanning.
+
+SUPPORTED QR CODE TYPES:
+
+• URLs and Web Links
+• WiFi Network Credentials
+• Contact Information (vCard, MECARD)
+• Calendar Events (iCalendar)
+• Phone Numbers
+• Email Addresses
+• SMS Messages
+• Geographic Locations
+• Payment Addresses (Bitcoin, Ethereum)
+• App Deep Links
+• Plain Text
+
+Perfect for everyday use, business cards, event check-ins, WiFi sharing, and more. Download QR Scanner today and experience the easiest way to scan and interact with QR codes.

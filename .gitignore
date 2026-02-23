@@ -32,7 +32,7 @@ yarn-error.*
 
 # local env files
 .env*.local
-.env.fastlane
+fastlane/.env.default
 
 # typescript
 *.tsbuildinfo
@@ -61,6 +61,5 @@ qr-scanner-*.json
 
 .kiro
 
-fastlane
 ios
 android
